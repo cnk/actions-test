@@ -5,4 +5,4 @@ outputs:
     description: 'json from the api call'
 runs:
   using: 'node12'
-  main: './github-actions/scrape-github-api.js'
+  main: 'scrape-github-api.js'
