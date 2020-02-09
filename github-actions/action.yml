@@ -1,0 +1,8 @@
+name: 'Get JSON Data'
+description: 'Calls the github API for all projects with he hack-for-la tag and writes a JSON file'
+outputs:
+  json: # id of output
+    description: 'json from the api call'
+runs:
+  using: 'node12'
+  main: './github-actions/scrape-github-api.js'

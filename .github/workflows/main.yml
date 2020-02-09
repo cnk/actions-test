@@ -1,6 +1,7 @@
 name: experiment
 
-on: [create]
+# Run this action on code push or branch/tag creation
+on: [create, push]
 
 jobs:
   build:
@@ -17,4 +18,4 @@ jobs:
     # Use an action (`my-action`) in your repository
     - name: Generate github_data.json
       id: json
-      uses: ./github-actions/scrape-github-api.js
+      uses: ./github-actions/action.yml
