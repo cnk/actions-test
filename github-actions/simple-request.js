@@ -1,7 +1,4 @@
-// from https://medium.com/adobetech/how-to-combine-rest-api-calls-with-javascript-promises-in-node-js-or-openwhisk-d96cbc10f299
-
 var request = require('request-promise');
-
 var github = {
     token: null,
     apiData: {},
@@ -27,8 +24,10 @@ var github = {
                     },
                     contributors: { url: project.contributors_url, data: [] }
                 };
+                language_urls.push(project.languages_url);
+                contributor_urls.push(project.contributors_url);
             });
-            return github.apiData;
+            return language_urls;
         }).catch(function(err) {
             return err.message;
         });
@@ -43,7 +42,7 @@ var github = {
                 "User-Agent": "Hack For LA"
             }
         }).then(function(body) {
-            return Object.keys(body);
+            return Promise.resolve(Object.keys(body));
         }).catch(function(err) {
             return err.message;
         });
@@ -67,21 +66,46 @@ var github = {
                     "gravatar_id": user.gravatar_id
                 });
             });
-            return contributors;
+            return Promise.resolve(contributors);
         }).catch(function(err) {
             return err.message;
         });
     }
 }
+
 async function main(params) {
     github.token = params.token
     await github.getAllTaggedRepos()
+        //.map(github.getLanguageInfo);
     let projectIds = Object.keys(github.apiData)
+    let lps = []
+    let cps = []
     for (i = 0; i < projectIds.length; i++) {
-        github.apiData[projectIds[i]].languages.data = github.getLanguageInfo(github.apiData[projectIds[i]].languages.url)
-        github.apiData[projectIds[i]].contributors.data = github.getContributorsInfo(github.apiData[projectIds[i]].contributors.url)
+        lps.push(github.getLanguageInfo(github.apiData[projectIds[i]].languages.url))
+        cps.push(github.getContributorsInfo(github.apiData[projectIds[i]].contributors.url))
     }
-    let output = JSON.stringify(github.apiData);
-    console.log(output)
+    Promise.all(lps)
+        .then(function(ls) {
+            for (i = 0; i < ls.length; i++) {
+                github.apiData[projectIds[i]].languages.data = ls[i]
+                console.log(github.apiData[projectIds[i]].languages.data)
+            }
+        })
+        .catch(function(e) {
+            console.log(e)
+        })
+    Promise.all(cps)
+        .then(function(cs) {
+            for (i = 0; i < cs.length; i++) {
+                github.apiData[projectIds[i]].contributors.data = cs[i]
+                // console.log(github.apiData[projectIds[i]].contributors.data)
+            }
+        })
+        .catch(function(e) {
+            console.log(e)
+        })
+    var out = JSON.stringify(github.apiData);
+    console.log(out)
 }
+
 main({ "token": process.argv[2] })
