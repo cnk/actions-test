@@ -15,20 +15,36 @@ var github = {
         "User-Agent": "Hack For LA"
       }
     }).then(function(body) {
-      let apiData = {};
+      let apiData = [];
       let language_urls = [];
       let contributor_urls = [];
       body.items.forEach(function(project) {
-        apiData[project.id] = {name: project.name,
-                               languages: {url: project.languages_url,
-                                           data: []},
-                               contributors: {url: project.contributors_url}
-                              };
-        language_urls.push(project.languages_url);
-        contributor_urls.push(project.contributors_url);
+        apiData.push({id: project.id,
+                      name: project.name,
+                      languages: {url: project.languages_url},
+                      contributors: {url: project.contributors_url}
+                    });
+        language_urls.push(github.getLanguageInfo(project.languages_url));
+        contributor_urls.push(github.getContributorsInfo(project.contributors_url));
       });
-      return language_urls;
+      return [apiData, language_urls, contributor_urls];
+    }).then(function(apiData, language_calls, contributor_calls) {
+      Promise.all([language_calls])
+        .then(function(responses) {
+          responses.map(function(response) {
+            console.log(response);
+          });
+          for (var i = 0; i < responses.length; i++) {
+            // apiData[i].languages['data'] = responses[i];
+            console.log(responses[i]);
+          }
+          return apiData;
+        // }).catch(function(err) {
+        //   console.log('Problem in languages promise');
+        //   return err.message;
+        });
     }).catch(function(err) {
+      console.log('Problem getting hack for la repos');
       return err.message;
     });
   },
@@ -45,6 +61,7 @@ var github = {
     }).then(function(body) {
       return Object.keys(body);
     }).catch(function(err) {
+      console.log('Problem getting language info at url ' + url);
       return err.message;
     });
   },
@@ -69,6 +86,7 @@ var github = {
       });
       return contributors;
     }).catch(function(err) {
+      console.log('Problem getting contributors info at url ' + url);
       return err.message;
     });
   }
@@ -77,10 +95,10 @@ var github = {
 
 function main(params) {
   github.token = params.token
-  return github.getAllTaggedRepos()
-    .map(github.getLanguageInfo);
+  return github.getAllTaggedRepos();
 }
 
 main({"token": process.argv[2]}).then(function(result) {
   console.log(result);
 });
+
