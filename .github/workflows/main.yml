@@ -19,3 +19,18 @@ jobs:
     - name: Generate github_data.json
       id: json
       uses: ./github-actions
+
+    - uses: stefanzweifel/git-auto-commit-action@v3.0.0
+      with:
+        commit_message: Update contributor and language data
+
+        # Optional git params
+        commit_options: '--no-verify --signoff'
+
+        # Optional glob pattern of files which should be added to the commit
+        file_pattern: github-actions/db.json
+
+        # Optional commit user and author settings
+        commit_user_name: GitHub Actions Bot
+        commit_user_email: github-actions-bot@hackforla.org
+
