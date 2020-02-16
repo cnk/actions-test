@@ -1,6 +1,8 @@
 // from https://medium.com/adobetech/how-to-combine-rest-api-calls-with-javascript-promises-in-node-js-or-openwhisk-d96cbc10f299
 
-var request = require('request-promise');
+const fs = require('fs');
+const path = require('path');
+const request = require('request-promise');
 
 var github = {
   token: null,
@@ -15,34 +17,45 @@ var github = {
         "User-Agent": "Hack For LA"
       }
     }).then(function(body) {
+      console.log('CNK starting first then ********');
       let apiData = [];
-      let language_urls = [];
-      let contributor_urls = [];
+      let languages_calls = [];
+      let contributors_calls = [];
       body.items.forEach(function(project) {
         apiData.push({id: project.id,
                       name: project.name,
-                      languages: {url: project.languages_url},
-                      contributors: {url: project.contributors_url}
+                      languages: {url: project.languages_url, data: []},
+                      contributors: {url: project.contributors_url, data: []}
                     });
-        language_urls.push(github.getLanguageInfo(project.languages_url));
-        contributor_urls.push(github.getContributorsInfo(project.contributors_url));
+        languages_calls.push(github.getLanguageInfo(project.languages_url));
+        contributors_calls.push(github.getContributorsInfo(project.contributors_url));
       });
-      return [apiData, language_urls, contributor_urls];
-    }).then(function(apiData, language_calls, contributor_calls) {
-      Promise.all([language_calls])
+      return [apiData, languages_calls, contributors_calls];
+    }).then(function(apiData, languages_calls, contributors_calls) {
+      console.log('CNK starting second then ********');
+      console.log(languages_calls);
+      Promise.all(languages_calls)
         .then(function(responses) {
-          responses.map(function(response) {
-            console.log(response);
-          });
           for (var i = 0; i < responses.length; i++) {
-            // apiData[i].languages['data'] = responses[i];
+            apiData[i].languages.data = responses[i];
             console.log(responses[i]);
           }
-          return apiData;
-        // }).catch(function(err) {
-        //   console.log('Problem in languages promise');
-        //   return err.message;
+        }).catch(function(err) {
+          console.log('Problem in languages Promise.all');
+          return err.message;
         });
+
+      Promise.all(contributors_calls)
+        .then(function(responses) {
+          for (var i = 0; i < responses.length; i++) {
+            apiData[i].contributors.data = responses[i];
+          }
+        }).catch(function(err) {
+          console.log('Problem in contributors Promise.all');
+          return err.message;
+        });
+
+      return apiData;
     }).catch(function(err) {
       console.log('Problem getting hack for la repos');
       return err.message;
@@ -99,6 +112,6 @@ function main(params) {
 }
 
 main({"token": process.argv[2]}).then(function(result) {
-  console.log(result);
+  console.log(JSON.stringify(result));
 });
 
