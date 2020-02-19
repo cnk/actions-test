@@ -1,3 +1,4 @@
+const core = require('@actions/core');
 const fs = require('fs');
 const path = require('path');
 const request = require('request-promise');
@@ -105,4 +106,8 @@ async function main(params) {
 
 }
 
-main({ "token": process.argv[2] })
+try {
+  main({ "token": process.argv[2] })
+} catch (error) {
+  core.setFailed(error.message);
+}
