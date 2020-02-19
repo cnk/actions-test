@@ -7,4 +7,4 @@ outputs:
     description: 'json data we need for project cards'
 runs:
   using: 'node12'
-  main: './scrape-github-api.js'
+  main: './simple-request.js'
