@@ -107,10 +107,6 @@ async function main(params) {
 
 }
 
-try {
-  console.log('Got into the try block');
-  main({ "token": process.argv[2] })
-} catch (error) {
-  console.log('Got into the catch block');
-  core.setFailed(error.message);
-}
+console.log('before main');
+main({ "token": process.argv[2] })
+console.log('after main');
