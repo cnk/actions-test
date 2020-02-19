@@ -99,9 +99,9 @@ async function main(params) {
     .catch(function(e) {
       console.log(e)
     });
-  console.log(JSON.stringify(github.apiData));
+  console.log(JSON.stringify(github.apiData, null, 2));
   let jsonPath = path.join(__dirname, 'db.json');
-  fs.writeFileSync(jsonPath, JSON.stringify(github.apiData));
+  fs.writeFileSync(jsonPath, JSON.stringify(github.apiData, null, 2));
 
 }
 
