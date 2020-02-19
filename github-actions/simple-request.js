@@ -73,6 +73,7 @@ var github = {
 }
 
 async function main(params) {
+  console.log('In the async function main');
   github.token = params.token;
 
   await github.getAllTaggedRepos();
@@ -107,7 +108,9 @@ async function main(params) {
 }
 
 try {
+  console.log('Got into the try block');
   main({ "token": process.argv[2] })
 } catch (error) {
+  console.log('Got into the catch block');
   core.setFailed(error.message);
 }
