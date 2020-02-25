@@ -77,34 +77,39 @@ async function main(params) {
   github.token = params.token;
 
   await github.getAllTaggedRepos();
-  let lps = [];
-  let cps = [];
+  let lps = [], ldone = false
+  let cps = [], cdone = false
   for (i = 0; i < github.apiData.length; i++) {
     lps.push(github.getLanguageInfo(github.apiData[i].languages.url));
     cps.push(github.getContributorsInfo(github.apiData[i].contributors.url));
   }
-  await Promise.all(lps)
+  Promise.all(lps)
     .then(function(ls) {
       for (i = 0; i < ls.length; i++) {
         github.apiData[i].languages.data = ls[i]
       }
+      ldone = true
+      if (cdone) finish()
     })
     .catch(function(e) {
       console.log(e)
     });
-  await Promise.all(cps)
+  Promise.all(cps)
     .then(function(cs) {
       for (i = 0; i < cs.length; i++) {
         github.apiData[i].contributors.data = cs[i]
       }
+      cdone = true
+      if (ldone) finish()
     })
     .catch(function(e) {
       console.log(e)
     });
-  console.log(JSON.stringify(github.apiData, null, 2));
-  let jsonPath = path.join(__dirname, 'github_data.json');
-  fs.writeFileSync(jsonPath, JSON.stringify(github.apiData, null, 2));
-
+  function finish(){
+    console.log(JSON.stringify(github.apiData, null, 2));
+    let jsonPath = path.join(__dirname, 'github_data.json');
+    fs.writeFileSync(jsonPath, JSON.stringify(github.apiData, null, 2));
+  }
 }
 
 console.log('before main');
