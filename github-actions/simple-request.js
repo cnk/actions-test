@@ -107,7 +107,7 @@ async function main(params) {
     });
   function finish(){
     console.log(JSON.stringify(github.apiData, null, 2));
-    fs.writeFileSync('_data/github-data.json', JSON.stringify(github.apiData, null, 2));
+    fs.writeFileSync('github-actions/github_data.json', JSON.stringify(github.apiData, null, 2));
   }
 }
 
