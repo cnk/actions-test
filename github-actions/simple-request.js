@@ -129,7 +129,8 @@ async function main(params) {
       console.log(e)
     });
   function finish(){
-    let output = github.apiData.sort(github.compareValues('name'));
+    // let output = github.apiData.sort(github.compareValues('name'));
+    let output = github.apiData;
     console.log(JSON.stringify(output, null, 2));
     fs.writeFileSync('github-actions/github_data.json', JSON.stringify(output, null, 2));
   }
