@@ -57,7 +57,6 @@ var github = {
     }).then(function(body) {
       // return a list of contributors sorted by number of commits
       let contributors = [];
-      console.log(body);
       body.forEach(function(user) {
         contributors.push({
           "id": user.id,
