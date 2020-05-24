@@ -1,5 +1,5 @@
 {
-  "name": "VRMS API",
+  "name": "VRMS_API",
   "version": "0.0.0",
   "description": "> Pull data from VRMS for the Hack for LA's website https://www.hackforla.org",
   "main": "./vrms-actions/get-vrms-data.js",
