@@ -24,7 +24,7 @@ jobs:
     - uses: stefanzweifel/git-auto-commit-action@v3.0.0
       with:
         # Optional glob pattern of files which should be added to the commit
-        file_pattern: github-actions/github_data.json
+        file_pattern: _data/github_data.json
 
         commit_message: Update contributor and language data
 
@@ -37,19 +37,19 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - uses: bahmutov/npm-install@v1
-      with:
-        working-directory: github-actions
+    # - uses: bahmutov/npm-install@v1
+    #   with:
+    #     working-directory: github-actions
 
     # Use an action (`my-action`) in your repository
     - name: Generate vrms_data.json
       id: json
-      uses: ./github-actions/get-vrms-data
+      uses: ./github-actions
 
     - uses: stefanzweifel/git-auto-commit-action@v3.0.0
       with:
         # Optional glob pattern of files which should be added to the commit
-        file_pattern: github-actions/vrms_data.json
+        file_pattern: _data/vrms_data.json
 
         commit_message: Update contributor and language data
 
