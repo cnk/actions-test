@@ -37,9 +37,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    # - uses: bahmutov/npm-install@v1
-    #   with:
-    #     working-directory: github-actions
+    - uses: bahmutov/npm-install@v1
+      with:
+        working-directory: github-actions
 
     # Use an action (`my-action`) in your repository
     - name: Generate vrms_data.json

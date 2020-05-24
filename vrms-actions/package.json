@@ -1,0 +1,26 @@
+{
+  "name": "VRMS API",
+  "version": "0.0.0",
+  "description": "> Pull data from VRMS for the Hack for LA's website https://www.hackforla.org",
+  "main": "./vrms-actions/get-vrms-data.js",
+  "dependencies": {
+    "@actions/core": "^1.2.0",
+    "@actions/github": "^2.0.0",
+    "@actions/http-client": ">=1.0.8",
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cnk/actions-test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cnk/actions-test/issues"
+  },
+  "homepage": "https://github.com/cnk/actions-test#readme"
+}
