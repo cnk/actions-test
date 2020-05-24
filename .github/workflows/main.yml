@@ -44,7 +44,7 @@ jobs:
     # Use an action (`my-action`) in your repository
     - name: Generate vrms_data.json
       id: json
-      uses: ./github-actions
+      uses: ./vrms-actions
 
     - uses: stefanzweifel/git-auto-commit-action@v3.0.0
       with:
