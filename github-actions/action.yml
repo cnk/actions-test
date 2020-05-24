@@ -1,4 +1,4 @@
-name: 'Get JSON Data'
+name: 'Get JSON Data from GitHub API'
 description:
     Calls the github API for all projects with the hack-for-la tag,
     gets contributor and language data and writes it to a JSON file

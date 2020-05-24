@@ -4,7 +4,7 @@ name: experiment
 on: [create, push]
 
 jobs:
-  build:
+  github_data:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,6 +25,31 @@ jobs:
       with:
         # Optional glob pattern of files which should be added to the commit
         file_pattern: github-actions/github_data.json
+
+        commit_message: Update contributor and language data
+
+        # Optional commit user and author settings
+        commit_author: GitHub Actions Bot <hackforla-bot@hackforla.org>
+
+  vrms_data:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: bahmutov/npm-install@v1
+      with:
+        working-directory: github-actions
+
+    # Use an action (`my-action`) in your repository
+    - name: Generate vrms_data.json
+      id: json
+      uses: ./github-actions/get-vrms-data
+
+    - uses: stefanzweifel/git-auto-commit-action@v3.0.0
+      with:
+        # Optional glob pattern of files which should be added to the commit
+        file_pattern: github-actions/vrms_data.json
 
         commit_message: Update contributor and language data
 
