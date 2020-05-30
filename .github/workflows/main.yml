@@ -37,14 +37,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - uses: bahmutov/npm-install@v1
-      with:
-        working-directory: vrms-actions
-
     # Use an action (`my-action`) in your repository
-    - name: Generate vrms_data.json
-      id: json
-      uses: ./vrms-actions
+    - name: Save vrms_data.json
+      run: curl -o _data/vrms_data.json https://www.vrms.io/api/recurringevents
 
     - uses: stefanzweifel/git-auto-commit-action@v3.0.0
       with:
