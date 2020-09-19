@@ -31,23 +31,23 @@ jobs:
         # Optional commit user and author settings
         commit_author: GitHub Actions Bot <hackforla-bot@hackforla.org>
 
-  vrms_data:
-    runs-on: ubuntu-latest
+  # vrms_data:
+  #   runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v2
+  #   steps:
+  #   - uses: actions/checkout@v2
 
-    # Use an action (`my-action`) in your repository
-    - name: Save vrms_data.json
-      run: curl -o _data/vrms_data.json https://www.vrms.io/api/recurringevents
+  #   # Use an action (`my-action`) in your repository
+  #   - name: Save vrms_data.json
+  #     run: curl -o _data/vrms_data.json https://www.vrms.io/api/recurringevents
 
-    - uses: stefanzweifel/git-auto-commit-action@v3.0.0
-      with:
-        # Optional glob pattern of files which should be added to the commit
-        file_pattern: _data/vrms_data.json
+  #   - uses: stefanzweifel/git-auto-commit-action@v3.0.0
+  #     with:
+  #       # Optional glob pattern of files which should be added to the commit
+  #       file_pattern: _data/vrms_data.json
 
-        commit_message: Update contributor and language data
+  #       commit_message: Update contributor and language data
 
-        # Optional commit user and author settings
-        commit_author: GitHub Actions Bot <hackforla-bot@hackforla.org>
+  #       # Optional commit user and author settings
+  #       commit_author: GitHub Actions Bot <hackforla-bot@hackforla.org>
 
