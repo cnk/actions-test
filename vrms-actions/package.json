@@ -1,14 +1,12 @@
 {
-  "name": "Website",
+  "name": "VRMS_API",
   "version": "0.0.0",
-  "description": "> Hack for LA's website https://www.hackforla.org",
-  "main": "./github-actions/scrape-github-api.js",
+  "description": "> Pull data from VRMS for the Hack for LA's website https://www.hackforla.org",
+  "main": "./vrms-actions/get-vrms-data.js",
   "dependencies": {
     "@actions/core": "^1.2.0",
     "@actions/github": "^2.0.0",
-    "@actions/http-client": ">=1.0.8",
-    "request": "2.88.0",
-    "request-promise": "4.2.5"
+    "@actions/http-client": ">=1.0.8"
   },
   "devDependencies": {},
   "scripts": {

@@ -1,0 +1,9 @@
+name: 'Get JSON Data from VRMS API'
+description:
+    Caches the Recurring Events data from VRMS.io
+outputs:
+  json: # id of output
+    description: 'json data we need for project meeting page'
+runs:
+  using: 'node12'
+  main: './get-vrms-data.js'
